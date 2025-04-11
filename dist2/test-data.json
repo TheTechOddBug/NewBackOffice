@@ -1,0 +1,46 @@
+{
+    "users": [
+        {
+            "username": "user1",
+            "name": "User One",
+            "password": "password1"
+        },
+        {
+            "username": "user2",
+            "name": "User Two",
+            "password": "password2"
+        },
+        {
+            "username": "user3",
+            "name": "User Three",
+            "password": "password3"
+        }
+    ],
+    "products": [
+        {
+            "name": "Product One",
+            "price": 10.99,
+            "description": "This is the first product."
+        },
+        {
+            "name": "Product Two",
+            "price": 25.50,
+            "description": "This is the second product."
+        },
+        {
+            "name": "Product Three",
+            "price": 5.99,
+            "description": "This is the third product."
+        },
+        {
+            "name": "Product Four",
+            "price": 49.99,
+            "description": "This is the fourth product."
+        },
+        {
+            "name": "Product Five",
+            "price": 12.75,
+            "description": "This is the fifth product."
+        }
+    ]
+}

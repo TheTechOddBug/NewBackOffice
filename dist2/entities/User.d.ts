@@ -1,4 +1,4 @@
-import { BaseEntity } from './BaseEntity.js';
+import { BaseEntity } from './BaseEntity';
 export declare class User extends BaseEntity {
     name: string;
     username: string;

@@ -1,13 +1,16 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { DatabaseType } from "typeorm";
+import { User } from "./entities/User";
+import { Product } from "./entities/Product";
+import { BaseEntity } from "./entities/BaseEntity";
 
 const dbType: DatabaseType = "sqlite";
 
-const AppDataSource = new DataSource({
+export const AppDataSource = new DataSource({
   type: dbType,
   database: "database.sqlite",
-  entities: ["dist/entities/*.js"],
+  entities: [BaseEntity, User, Product],
   migrations: ["src/migrations/*.ts"],
   synchronize: true,
   logging: false,
@@ -15,5 +18,3 @@ const AppDataSource = new DataSource({
   migrationsRun: true,
   entitySkipConstructor: true,
 });
-
-export { AppDataSource };

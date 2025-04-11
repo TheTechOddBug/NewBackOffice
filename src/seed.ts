@@ -1,53 +1,54 @@
-import { AppDataSource } from "./data-source";
-import { BaseEntity } from "./entities/BaseEntity";
-import { User } from "./entities/User";
-import { Product } from "./entities/Product";
-
-AppDataSource.setOptions({
-  ...AppDataSource.options,
-  entities: [BaseEntity, User, Product],
-});
-
+import { AppDataSource } from "./data-source.js";
+import { User } from "./entities/User.js"; 
+import { Product } from "./entities/Product.js";
+import testData from "./test-data.json" assert { type: "json" };
 
 async function seed() {
-
-  const userRepository = AppDataSource.getRepository(User);
-  const productRepository = AppDataSource.getRepository(Product);
-
-  const user1 = new User();
-  user1.username = "user1";
-  user1.name = "User 1";
-  user1.password = "password1";
-  await userRepository.save(user1);
-
-  const user2 = new User();
-  user2.username = "user2";
-  user2.name = "User 2";
-  user2.password = "password2";
-  await userRepository.save(user2);
-
-  const product1 = new Product();
-  product1.name = "Product 1";
-  product1.price = 10;
-  product1.description = "Description 1";
-  await productRepository.save(product1);
-
-  const product2 = new Product();
-  product2.name = "Product 2";
-  product2.price = 20;
-  product2.description = "Description 2";
-  await productRepository.save(product2);
-
-  const product3 = new Product();
-  product3.name = "Product 3";
-  product3.price = 30;
-  product3.description = "Description 3";
-  await productRepository.save(product3);
-
+  console.log('Entities loaded:', AppDataSource.options.entities);
+  console.log("Initializing AppDataSource...");
   try {
+    await AppDataSource.initialize();
+    console.log('Metadatas:', AppDataSource.entityMetadatas.map(m => m.name));
+    console.log("AppDataSource initialized successfully!");
+
+    console.log("Getting userRepository...");
+    const userRepository = AppDataSource.getRepository(User);
+    console.log("userRepository retrieved successfully!");
+
+    console.log("Getting productRepository...");
+    const productRepository = AppDataSource.getRepository(Product);
+    console.log("productRepository retrieved successfully!");
+
+    // Create and save users
+    const usersToSave = testData.users.map((userData) => {
+      console.log("Creating user:", userData);
+      const user = new User();
+      user.username = userData.username;
+      user.name = userData.name;
+      user.password = userData.password;
+      console.log("Saving user:", user);
+      return user;
+    });
+
+    await userRepository.save(usersToSave);
+
+    // Create and save products
+    const productsToSave = testData.products.map((productData) => {
+      console.log("Creating product:", productData);
+      const product = new Product();
+      product.name = productData.name;
+      product.price = productData.price;
+      product.description = productData.description;
+      console.log("Saving product:", product);
+      return product;
+    });
+
+    await productRepository.save(productsToSave);
+
     console.log("Database seeded successfully!");
-  } catch (error) {
-    console.error("Error seeding database:", error);
+  } catch (err: unknown) {
+    const error = err instanceof Error ? err : new Error(String(err));
+    console.error("Error seeding database:", error.message, error.stack);
   } finally {
     await AppDataSource.destroy();
   }

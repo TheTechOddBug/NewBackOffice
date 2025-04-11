@@ -1,5 +1,5 @@
 import { Entity, Column } from "typeorm";
-import { BaseEntity } from "./BaseEntity.js";
+import { BaseEntity } from "./BaseEntity";
 import { IsNotEmpty, IsNumber, IsPositive, IsString } from "class-validator";
 
 @Entity({ name: "products" })

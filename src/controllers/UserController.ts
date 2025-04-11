@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
+import { validate } from "class-validator";
 import { UserService } from "../services/UserService.js";
+import { plainToInstance } from "class-transformer";
+import { BadRequestError } from "../errors/ApiError.js";
+import { User } from "../entities/User.js";
 
 export class UserController {
   private userService: UserService;
@@ -33,40 +37,43 @@ export class UserController {
 
   async create(req: Request, res: Response) {
     try {
-      const userData = req.body;
-      const newUser = await this.userService.create(userData);
-      res.status(201).json(newUser);
-    } catch (error) {
-      res.status(500).json({ error: (error as Error).message });
+      const validatedUser = await this.validateAndTransform(req.body, User);
+      res.status(201).json(await this.userService.create(validatedUser));
+    } catch (error: unknown) {
+      res.status((error as any).statusCode || 500).json({ error: (error as Error).message });
     }
   }
-
+  
   async update(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const userData = req.body;
-      const updatedUser = await this.userService.update(id, userData);
-      if (!updatedUser) {
-        res.status(404).json({ error: "User not found" });
-      } else {
-        res.json(updatedUser);
-      }
-    } catch (error) {
-      res.status(500).json({ error: (error as Error).message });
+      const validatedUser: User = await this.validateAndTransform<User>(req.body, User);
+
+      res.json(await this.userService.update(id, validatedUser));
+
+    } catch (error: unknown) {
+      res.status((error as any).statusCode || 500).json({ error: (error as Error).message });
     }
   }
 
   async delete(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const success = await this.userService.delete(id);
-      if (!success) {
-        res.status(404).json({ error: "User not found" });
-      } else {
-        res.status(204).send();
-      }
-    } catch (error) {
-      res.status(500).json({ error: (error as Error).message });
+      await this.userService.delete(id);
+      res.status(204).send();
+    } catch (error: unknown) {
+      res.status((error as any).statusCode || 500).json({ error: (error as Error).message });
     }
   }
+
+  private async validateAndTransform<T extends object>(body: object, type: new () => T): Promise<T> {
+    const object = plainToInstance(type, body);
+    const errors = await validate(object);
+    if (errors.length > 0) {
+        const errorMessages = errors
+            .map((error) => Object.values(error.constraints!)).flat();
+        throw new BadRequestError(errorMessages.join(", "));
+    }
+    return object;
+}
 }

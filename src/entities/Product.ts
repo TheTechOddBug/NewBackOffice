@@ -1,11 +1,16 @@
-import { Entity, Column } from 'typeorm';
-import { BaseEntity } from './BaseEntity.js';
+import { Entity, Column } from "typeorm";
+import { BaseEntity } from "./BaseEntity.js";
+import { IsNotEmpty, IsNumber, IsPositive, IsString } from "class-validator";
 
-@Entity({ name: 'products' })
+@Entity({ name: "products" })
 export class Product extends BaseEntity {
-  @Column()
-  name!: string; // Add the ! character
+  @Column({ type: "varchar" })
+  @IsString()
+  @IsNotEmpty()
+  name!: string;
 
-  @Column({ type: 'numeric' })
-  price!: number; // Add the ! character
+  @Column({ type: "numeric" })
+  @IsNumber()
+  @IsPositive()
+  price!: number;
 }

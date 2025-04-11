@@ -4,13 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "rimraf dist && tsc --project tsconfig.json && nodemon dist/index.js",
+    "dev": "nodemon dist2/index.js",
     "start:db": "docker compose up -d",
-    "build": "tsc --project tsconfig.json && node dist/index.js",
+    "build": "tsc --project tsconfig.json && node dist2/index.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "pg": "^8.14.1",

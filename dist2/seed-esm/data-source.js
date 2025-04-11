@@ -12,4 +12,4 @@ const AppDataSource = new DataSource({
     migrationsRun: true,
     entitySkipConstructor: true,
 });
-export { AppDataSource };
+export default AppDataSource;

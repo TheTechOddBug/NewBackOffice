@@ -1,10 +1,11 @@
 {
   "name": "my-app",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.0",  
   "type": "module",
   "scripts": {
     "dev": "nodemon dist2/index.js",
+    "seed": "tsc --project tsconfig.json && node dist2/seed-esm/seed.js",
     "start:db": "docker compose up -d",
     "build": "tsc --project tsconfig.json && node dist2/index.js",
     "lint": "eslint .",

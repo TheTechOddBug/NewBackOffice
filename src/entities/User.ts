@@ -1,12 +1,22 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, Unique } from 'typeorm';
 import { BaseEntity } from './BaseEntity.js';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 
 @Entity("users")
+@Unique(["email"])
 export class User extends BaseEntity {
   @IsNotEmpty()
   @Column({ nullable: false })
   name!: string;
+
+  @IsNotEmpty()
+  @Column({ nullable: false })
+  username!: string;
+
+  @IsNotEmpty()
+  @MinLength(6)
+  @Column({ nullable: false })
+  password!: string;
 
   @IsNotEmpty()
   @IsEmail()

@@ -16,4 +16,4 @@ const AppDataSource = new DataSource({
   entitySkipConstructor: true,
 });
 
-export default AppDataSource;
+export { AppDataSource };

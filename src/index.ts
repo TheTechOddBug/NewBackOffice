@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response, ErrorRequestHandler } from 'express';
 import cors from 'cors';
-import AppDataSource from "./data-source.js";
+import { AppDataSource } from "./data-source.js";
 import { EntityController } from "./controllers/entity.js";
 import userRouter from './routes/user.js';
 import productRouter from './routes/product.js';

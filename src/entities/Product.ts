@@ -13,4 +13,8 @@ export class Product extends BaseEntity {
   @IsNumber()
   @IsPositive()
   price!: number;
+
+  @Column({ type: "text" })
+  @IsString()
+  description!: string;
 }

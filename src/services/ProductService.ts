@@ -1,4 +1,4 @@
-import AppDataSource from "../data-source.js";
+import { AppDataSource } from "../data-source";
 import { Product } from "../entities/Product.js";
 import { BadRequestError, NotFoundError } from "../errors/ApiError.js";
 import { validate } from "class-validator";

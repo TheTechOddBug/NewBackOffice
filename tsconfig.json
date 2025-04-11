@@ -9,7 +9,6 @@
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-
     /* Bundler mode */
     "moduleResolution": "bundler",
 

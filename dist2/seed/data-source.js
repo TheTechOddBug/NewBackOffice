@@ -1,7 +1,9 @@
-import "reflect-metadata";
-import { DataSource } from "typeorm";
-const dbType = "sqlite";
-const AppDataSource = new DataSource({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata");
+var typeorm_1 = require("typeorm");
+var dbType = "sqlite";
+var AppDataSource = new typeorm_1.DataSource({
     type: dbType,
     database: "database.sqlite",
     entities: ["dist/entities/*.js"],
@@ -12,4 +14,4 @@ const AppDataSource = new DataSource({
     migrationsRun: true,
     entitySkipConstructor: true,
 });
-export { AppDataSource };
+exports.default = AppDataSource;
